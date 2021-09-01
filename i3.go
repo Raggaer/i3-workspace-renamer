@@ -2,8 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net"
 )
+
+const (
+	I3_CATEGORY_GET_WORKSPACES = 1
+)
+
+type i3MessageEvent struct {
+	Change string `json:"change"`
+}
 
 type i3Message struct {
 	length   uint32
@@ -12,7 +21,21 @@ type i3Message struct {
 	data     []byte
 }
 
-func retrievei3Workspaces(conn net.Conn) error {
+func (i *i3Message) decodeEventData() (*i3MessageEvent, error) {
+	var data i3MessageEvent
+	err := json.Unmarshal(i.data, &data)
+	return &data, err
+}
+
+func retrievei3Workspaces(ch chan *i3Message, conn net.Conn) (*i3Message, error) {
+	if err := sendi3Workspaces(conn); err != nil {
+		return nil, fmt.Errorf("Unable to retrieve i3 workspaces: %v", err)
+	}
+	msg := <-ch
+	return msg, nil
+}
+
+func sendi3Workspaces(conn net.Conn) error {
 	output := newOutputMessage()
 	output.writeString("i3-ipc")
 	output.writeUint32(0)

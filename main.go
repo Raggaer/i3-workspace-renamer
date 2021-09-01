@@ -26,9 +26,10 @@ func main() {
 
 	eventCh := make(chan *i3Message)
 	msgCh := make(chan *i3Message)
+	getWorkspacesCh := make(chan *i3Message)
 
-	go handleMessageChannel(msgCh)
-	go handleEventChannel(eventCh)
+	go handleMessageChannel(msgCh, getWorkspacesCh)
+	go handleEventChannel(conn, eventCh, getWorkspacesCh)
 
 	handleApplicationRead(msgCh, eventCh, conn)
 }
@@ -55,7 +56,8 @@ func handleApplicationRead(msgCh, eventCh chan *i3Message, conn net.Conn) {
 		messageType := binary.LittleEndian.Uint32(buff[len(i3ipcHeader)+4 : len(i3ipcHeader)+8])
 		messageTypeCategory := messageType & 0x7F
 
-		messageData := buff[len(i3ipcHeader)+8:]
+		messageData := make([]byte, len(buff[len(i3ipcHeader)+8:]))
+		copy(messageData, buff[len(i3ipcHeader)+8:])
 
 		i3Message := &i3Message{
 			data:     messageData,
@@ -69,23 +71,5 @@ func handleApplicationRead(msgCh, eventCh chan *i3Message, conn net.Conn) {
 			continue
 		}
 		eventCh <- i3Message
-	}
-}
-
-func handleMessageChannel(ch chan *i3Message) {
-	for {
-		select {
-		case msg := <-ch:
-			fmt.Println("msg", msg)
-		}
-	}
-}
-
-func handleEventChannel(ch chan *i3Message) {
-	for {
-		select {
-		case msg := <-ch:
-			fmt.Println("event", msg)
-		}
 	}
 }
