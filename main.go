@@ -9,6 +9,7 @@ import (
 
 const (
 	i3ipcHeader = "i3-ipc"
+	bufferSize  = 20024
 )
 
 func main() {
@@ -27,15 +28,16 @@ func main() {
 	eventCh := make(chan *i3Message)
 	msgCh := make(chan *i3Message)
 	getWorkspacesCh := make(chan *i3Message)
+	getTreeCh := make(chan *i3Message)
 
-	go handleMessageChannel(msgCh, getWorkspacesCh)
-	go handleEventChannel(conn, eventCh, getWorkspacesCh)
+	go handleMessageChannel(msgCh, getWorkspacesCh, getTreeCh)
+	go handleEventChannel(conn, eventCh, getWorkspacesCh, getTreeCh)
 
 	handleApplicationRead(msgCh, eventCh, conn)
 }
 
 func handleApplicationRead(msgCh, eventCh chan *i3Message, conn net.Conn) {
-	buff := make([]byte, 2024)
+	buff := make([]byte, bufferSize)
 
 	for {
 		n, err := conn.Read(buff[:cap(buff)])

@@ -11,17 +11,20 @@ const (
 
 type eventHandlerChannels struct {
 	getWorkspacesCh chan *i3Message
+	getTreeCh       chan *i3Message
 }
 
 type eventHandler interface {
 	handle(*i3Message, *i3MessageEvent) error
 }
 
-func handleMessageChannel(ch, getWorkspacesCh chan *i3Message) {
+func handleMessageChannel(ch, getWorkspacesCh, getTreeCh chan *i3Message) {
 	for {
 		select {
 		case msg := <-ch:
 			switch msg.category {
+			case I3_CATEGORY_GET_TREE:
+				getTreeCh <- msg
 			case I3_CATEGORY_GET_WORKSPACES:
 				getWorkspacesCh <- msg
 			default:
@@ -31,9 +34,10 @@ func handleMessageChannel(ch, getWorkspacesCh chan *i3Message) {
 	}
 }
 
-func handleEventChannel(conn net.Conn, ch, getWorkspacesCh chan *i3Message) {
+func handleEventChannel(conn net.Conn, ch, getWorkspacesCh, getTreeCh chan *i3Message) {
 	channelHolder := &eventHandlerChannels{
 		getWorkspacesCh: getWorkspacesCh,
+		getTreeCh:       getTreeCh,
 	}
 
 	for {
