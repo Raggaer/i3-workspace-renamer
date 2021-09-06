@@ -14,7 +14,6 @@ func getSocketPath() (string, error) {
 
 func connectToIPC() (net.Conn, error) {
 	path, err := getSocketPath()
-	fmt.Println(strings.TrimSpace(path), "paco", err)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to retrieve i3 socketpath: %v", err)
 	}

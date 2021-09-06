@@ -7,9 +7,16 @@ import (
 )
 
 const (
+	I3_CATEGORY_SEND_COMMAND   = 0
 	I3_CATEGORY_GET_WORKSPACES = 1
 	I3_CATEGORY_GET_TREE       = 4
 )
+
+type i3Workspace struct {
+	ID   int64
+	Name string
+	Num  int
+}
 
 type i3MessageEvent struct {
 	Change string `json:"change"`
@@ -59,6 +66,18 @@ func retrievei3Workspaces(ch chan *i3Message, conn net.Conn) (*i3Message, error)
 	}
 	msg := <-ch
 	return msg, nil
+}
+
+func sendi3Command(cmd string, conn net.Conn) error {
+	output := newOutputMessage()
+	output.writeString("i3-ipc")
+	output.writeUint32(uint32(len(cmd)))
+	output.writeUint32(I3_CATEGORY_SEND_COMMAND)
+	output.writeString(cmd)
+
+	data := output.getOutputData()
+	_, err := conn.Write(data)
+	return err
 }
 
 func sendi3Workspaces(conn net.Conn) error {
