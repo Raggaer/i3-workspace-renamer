@@ -20,7 +20,7 @@ func main() {
 	}
 
 	// Subscribe to events
-	if err := subscribeToEvents(conn, []string{"window"}); err != nil {
+	if err := subscribeToEvents(conn, []string{"window", "workspace", "output", "binding", "shutdown"}); err != nil {
 		fmt.Fprintf(os.Stderr, err.Error()+"\n")
 		return
 	}

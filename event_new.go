@@ -8,6 +8,7 @@ import (
 
 var (
 	windowClassShortNames = map[string]string{
+		"gimp":          "✎ Gimp",
 		"clockify":      "🗒  Clockify",
 		"google-chrome": "◎ Chrome",
 		"st":            "▱ Terminal",
