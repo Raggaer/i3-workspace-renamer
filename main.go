@@ -9,7 +9,7 @@ import (
 
 const (
 	i3ipcHeader = "i3-ipc"
-	bufferSize  = 20024
+	bufferSize  = 61440
 )
 
 func main() {
