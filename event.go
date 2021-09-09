@@ -1,12 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"net"
 )
 
 const (
+	EVENT_RUN   = "run"
 	EVENT_NEW   = "new"
 	EVENT_CLOSE = "close"
+	EVENT_TITLE = "title"
 )
 
 type eventHandlerChannels struct {
@@ -52,7 +55,7 @@ func handleEventChannel(conn net.Conn, ch, getWorkspacesCh, getTreeCh chan *i3Me
 			// Handle event
 			var handler eventHandler
 			switch data.Change {
-			case EVENT_NEW, EVENT_CLOSE:
+			case EVENT_NEW, EVENT_CLOSE, EVENT_TITLE, EVENT_RUN:
 				handler = &eventNewHandler{conn, channelHolder}
 				go handler.handle(msg, data)
 			}
