@@ -58,12 +58,12 @@ func (e *eventNewHandler) handle(msg *i3Message, event *i3MessageEvent) error {
 			n := findWorkspaceNumberNotInUse(inUse, workspaces)
 			inUse = append(inUse, n)
 
-			if fmt.Sprintf("%d %s", n, strings.Join(nameList, " | ")) == workspace {
+			if fmt.Sprintf("%d:%d %s", n, n, strings.Join(nameList, " | ")) == workspace {
 				continue
 			}
 			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, n, n, strings.Join(nameList, " | "))
 		} else {
-			if fmt.Sprintf("%d %s", workspaceData.Num, strings.Join(nameList, " | ")) == workspace {
+			if fmt.Sprintf("%d:%d %s", workspaceData.Num, workspaceData.Num, strings.Join(nameList, " | ")) == workspace {
 				continue
 			}
 			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, workspaceData.Num, workspaceData.Num, strings.Join(nameList, " | "))
