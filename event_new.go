@@ -16,7 +16,8 @@ var (
 		"spotify":       "🎵 Spotify",
 	}
 	windowNameShortNames = map[string]string{
-		"vim": "▤ Vim",
+		"vim":  "▤ Vim",
+		"gimp": "✎ Gimp",
 	}
 )
 
