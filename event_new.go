@@ -57,8 +57,15 @@ func (e *eventNewHandler) handle(msg *i3Message, event *i3MessageEvent) error {
 		if workspaceData.Num < 0 {
 			n := findWorkspaceNumberNotInUse(inUse, workspaces)
 			inUse = append(inUse, n)
+
+			if fmt.Sprintf("%d %s", n, strings.Join(nameList, " | ")) == workspace {
+				continue
+			}
 			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, n, n, strings.Join(nameList, " | "))
 		} else {
+			if fmt.Sprintf("%d %s", workspaceData.Num, strings.Join(nameList, " | ")) == workspace {
+				continue
+			}
 			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, workspaceData.Num, workspaceData.Num, strings.Join(nameList, " | "))
 		}
 		if err := sendi3Command(cmd, e.conn); err != nil {
