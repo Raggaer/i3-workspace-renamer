@@ -2,3 +2,7 @@
 
 Simple i3 IPC script that renames Workspaces on-the-fly based on its contents.
 Currently it renames based on what I use on my setup (`event_new.go`).
+
+## How
+
+The application subscribes to events and proceeds to renamer the needed workspaces when each event arrives.
