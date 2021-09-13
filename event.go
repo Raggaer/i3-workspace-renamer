@@ -36,7 +36,7 @@ func handleMessageChannel(ch, getWorkspacesCh, getTreeCh chan *i3Message) {
 	}
 }
 
-func handleEventChannel(conn net.Conn, ch, getWorkspacesCh, getTreeCh chan *i3Message) {
+func handleEventChannel(cfg *config, conn net.Conn, ch, getWorkspacesCh, getTreeCh chan *i3Message) {
 	channelHolder := &eventHandlerChannels{
 		getWorkspacesCh: getWorkspacesCh,
 		getTreeCh:       getTreeCh,
@@ -45,6 +45,11 @@ func handleEventChannel(conn net.Conn, ch, getWorkspacesCh, getTreeCh chan *i3Me
 	for {
 		select {
 		case msg := <-ch:
+			// Handle loop closing
+			if msg == nil {
+				return
+			}
+
 			// Decode event data
 			data, err := msg.decodeEventData()
 			if err != nil {
@@ -55,7 +60,7 @@ func handleEventChannel(conn net.Conn, ch, getWorkspacesCh, getTreeCh chan *i3Me
 			var handler eventHandler
 			switch data.Change {
 			case EVENT_NEW, EVENT_CLOSE, EVENT_TITLE, EVENT_RUN:
-				handler = &eventNewHandler{conn, channelHolder}
+				handler = &eventNewHandler{cfg, conn, channelHolder}
 				go handler.handle(msg, data)
 			}
 		}
