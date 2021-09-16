@@ -1,15 +1,15 @@
 {
   "class": {
-		"gimp":          "✎ Gimp",
-		"clockify":      "🗒  Clockify",
-		"google-chrome": "◎ Chrome",
-		"st":            "▱ Terminal",
-		"discord":       "🗪 Discord",
-		"spotify":       "🎵 Spotify"
+    "gimp":          "✎ Gimp",
+    "clockify":      "🗒  Clockify",
+    "google-chrome": "◎ Chrome",
+    "st":            "▱ Terminal",
+    "discord":       "🗪 Discord",
+    "spotify":       "🎵 Spotify"
   },
   "window": {
-		"vim":  "▤ Vim",
-		"gimp": "✎ Gimp",
+    "vim":  "▤ Vim",
+    "gimp": "✎ Gimp",
     "htop": "🖵 htop"
   }
 }
