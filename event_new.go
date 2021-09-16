@@ -80,6 +80,8 @@ mainLoop:
 }
 
 // Retrieve the new workspace name
+// 1 - Check names by window title
+// 2 - Check names by window class
 func retrieveWorkspaceNamesFromContent(cfg *config, content []*i3TreeNodeWindow) []string {
 	ret := make([]string, 0, len(content))
 	for _, w := range content {

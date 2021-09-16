@@ -15,6 +15,7 @@ type i3TreeNodeWindow struct {
 	Title    string `json:"title"`
 }
 
+// Parse tree nodes and retrieve running windows inside workspace nodes
 func (i *i3TreeNode) retrieveWorkspaces() map[string]*i3Workspace {
 	ret := make(map[string]*i3Workspace)
 	if i.Nodes == nil {
@@ -26,6 +27,7 @@ func (i *i3TreeNode) retrieveWorkspaces() map[string]*i3Workspace {
 	return ret
 }
 
+// For a given tree node workspace retrieve running windows inside
 func (i *i3TreeNode) retrieveWorkspaceInformation(v map[string]*i3Workspace) {
 	if i.Type != "workspace" {
 		if i.Nodes != nil {
