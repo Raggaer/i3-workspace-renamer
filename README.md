@@ -5,7 +5,7 @@ Currently it renames based on what I use on my setup (`event_new.go`).
 
 ## How
 
-The application subscribes to events and proceeds to renamer the needed workspaces when each event arrives.
+The application subscribes to events and proceeds to rename the needed workspaces when each event arrives.
 When the connection drops for whatever reason, the application will try to open a new connection every 5 seconds.
 This is interesting for when you need to restart your i3wm instance and you run this application under your configuration file.
 
@@ -17,6 +17,7 @@ Below is a sample configuration file:
 
 ```json
 {
+	"separator": " | ",
 	"class": {
 		"gimp":          "✎ Gimp",
 		"clockify":      "🗒  Clockify",
@@ -31,3 +32,6 @@ Below is a sample configuration file:
 	}
 }
 ```
+
+Specific matches for applications should usually go inside the `class` option.
+Scripts that run on the terminal can be also matches with the `window` option (for example `htop`).
