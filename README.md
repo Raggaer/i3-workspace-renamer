@@ -9,6 +9,8 @@ The application subscribes to events and proceeds to rename the needed workspace
 When the connection drops for whatever reason, the application will try to open a new connection every 5 seconds.
 This is interesting for when you need to restart your i3wm instance and you run this application under your configuration file.
 
+The renaming keeps the workspace number so is it still possible to switch workspaces based on the number.
+
 ## Configuration
 
 All the configuration happens inside the `i3wr_config.json` file.
@@ -35,3 +37,4 @@ Below is a sample configuration file:
 
 Specific matches for applications should usually go inside the `class` option.
 Scripts that run on the terminal can be also matches with the `window` option (for example `htop`).
+
