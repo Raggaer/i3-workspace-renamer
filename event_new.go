@@ -47,12 +47,12 @@ func (e *eventNewHandler) handle(msg *i3Message, event *i3MessageEvent) error {
 			if fmt.Sprintf("%d:%d %s", n, n, strings.Join(nameList, " | ")) == workspace {
 				continue
 			}
-			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, n, n, strings.Join(nameList, " | "))
+			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, n, n, strings.Join(nameList, e.cfg.Separator))
 		} else {
 			if fmt.Sprintf("%d:%d %s", workspaceData.Num, workspaceData.Num, strings.Join(nameList, " | ")) == workspace {
 				continue
 			}
-			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, workspaceData.Num, workspaceData.Num, strings.Join(nameList, " | "))
+			cmd = fmt.Sprintf("rename workspace \"%s\" to \"%d:%d %s\"", workspace, workspaceData.Num, workspaceData.Num, strings.Join(nameList, e.cfg.Separator))
 		}
 		if err := sendi3Command(cmd, e.conn); err != nil {
 			return err

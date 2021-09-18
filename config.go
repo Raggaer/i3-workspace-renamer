@@ -6,6 +6,7 @@ import (
 )
 
 type config struct {
+	Separator            string            `json:"separator"`
 	ClassShortNames      map[string]string `json:"class"`
 	WindowNameShortNames map[string]string `json:"window"`
 }
